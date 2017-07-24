@@ -27,12 +27,6 @@ var app = {
         }, "*");
     },
     execute: function(eventName, args) {
-        console.log(arguments);
-        console.log(eventName);
-        console.log(args);
-        console.log(this._ons);
-        console.log(this._ons["_connected"]);
-        console.log(this._ons._connected);
         this._ons[eventName].apply(this, args);
     },
     names: function() {
@@ -43,12 +37,10 @@ var app = {
     onload: function() {}
 };
 app.emit("_onload");
-console.log('a');
 app.on("_connected", function(names, data) {
     app._names = names;
     app.onload(data);
 });
-console.log('b');
 window.addEventListener("message", function(event) {
     console.log(event.origin);
     console.log(event.data);

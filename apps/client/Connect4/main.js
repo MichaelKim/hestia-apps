@@ -4,6 +4,7 @@ var boardState = clearBoard();
 
 // Drawing
 var canvas;
+var ctx;
 
 var padding = 20;
 var boxSize = 64;
@@ -16,9 +17,10 @@ var isCurrentTurn = false;
 var player = 0;
 
 $(document).ready(function() {
-    canvas = $("#canvas")[0];
-    canvas.width = (gameWidth);
-    canvas.height = (gameHeight);
+    canvas = $(".gameCanvas")[0];
+    canvas.width = gameWidth;
+    canvas.height = gameHeight;
+    ctx = canvas.getContext("2d");
 
     // Init Squares
     drawBoard();
@@ -49,7 +51,6 @@ function setHeaderText(s) {
 }
 
 function drawBoard() {
-    var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.lineWidth = 4;
@@ -92,8 +93,10 @@ function initUserControl() {
     // Init User Control after Sockets
     for (var i = 0; i < gridWidth; i++) {
         var newDiv = $("<div id='u" + i + "'><canvas height='" + pieceSize + "' width='" + pieceSize + "'></canvas></div>");
-        newDiv.height(boxSize);
-        newDiv.width(boxSize);
+        // newDiv.height(boxSize);
+        // newDiv.width(boxSize);
+        newDiv.height("14%");
+        newDiv.width("14%");
         newDiv.click(function () {
             handlePushPiece($(this).attr("id"));
         });
@@ -131,7 +134,7 @@ function setupSocket() {
 			setHeaderText("You are spectating...");
 		}
 		else {
-			setHeaderText("Connected to server. Waiting for player...");
+			setHeaderText("Waiting for player...");
 		}
 		initUserControl();
     });
