@@ -31,14 +31,13 @@ $(document).ready(function() {
     $(".gameWrapper").mousemove(function (event) {
         if (isCurrentTurn) {
             var leftOffset = $(".gameCanvas").offset().left + padding;
-            var mouse = event.pageX - leftOffset;
-            var index = parseInt((event.pageX - leftOffset) / boxSize);
+            var index = parseInt((event.pageX - leftOffset) / $("#u0").height());
             for (var i = 0; i < gridWidth; i++) {
                 if (index != i) {
-                    $("#u" + i + " canvas").hide();
+                    $("#u" + i + " canvas").css("opacity", "0");
                 }
                 else {
-                    $("#u" + i + " canvas").show();
+                    $("#u" + i + " canvas").css("opacity", "1");
                 }
             }
         }
@@ -98,6 +97,7 @@ function initUserControl() {
         newDiv.height("14%");
         newDiv.width("14%");
         newDiv.click(function () {
+            console.log("CLICK");
             handlePushPiece($(this).attr("id"));
         });
         $(".userControl").append(newDiv);
