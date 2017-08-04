@@ -2,10 +2,6 @@ function serverApp(app){
 
     var messages = [];
 
-    app.on("start", function(id) {
-        app.emit(id, "messages", messages);
-    });
-
     app.on("send-msg", function(id, msg){
         messages.push(msg);
         var p = app.players[id];

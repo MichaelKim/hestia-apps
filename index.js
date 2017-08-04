@@ -121,9 +121,14 @@ function dataRetrieved(roomId, socketId, eventName, data) {
 }
 
 function leaveApp(roomId, socketId) { //player leaves app
-    var player = roomApps[roomId].players[socketId];
-    delete roomApps[roomId].players[socketId];
-    roomApps[roomId].left(socketId, player.name, player.role);
+    if(roomApps[roomId]) {
+        var player = roomApps[roomId].players[socketId];
+        delete roomApps[roomId].players[socketId];
+        roomApps[roomId].left(socketId, player.name, player.role);
+    }
+    else {
+        console.log("leaving app: " + roomId + ", " + socketId + ": not found");
+    }
     // remove player from app.players
     // roomApps[roomId].players
     // call some method in app like app.joined / app.left
