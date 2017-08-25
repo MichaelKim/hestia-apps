@@ -1,4 +1,4 @@
-# hestia-apps
+# Hestia Apps
 
 A collection of apps available on [Hestia](https://github.com/LenKagamine/Hestia).
 
