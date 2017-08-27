@@ -3,14 +3,12 @@ var app = {
     _names: [],
     _joined: function(name) {
         this._names.push(name);
-        console.log("player " + name + " joined");
         this.joined(name);
     },
     _left: function(name) {
         var index = this._names.indexOf(name);
         if(index > -1) {
             this._names.splice(index, 1);
-            console.log("player " + name + " left");
             this.left(name);
         }
     },
@@ -42,8 +40,6 @@ app.on("_connected", function(names, data) {
     app.onload(data);
 });
 window.addEventListener("message", function(event) {
-    console.log(event.origin);
-    console.log(event.data);
     if(event.origin.indexOf('https://hestiaroom.herokuapp.com') === -1) {
         return;
     }

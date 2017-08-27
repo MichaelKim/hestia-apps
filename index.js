@@ -4,7 +4,7 @@ var comp    = require("compression");
 var http    = require("http").createServer(app);
 var io      = require("socket.io").listen(http);
 
-var appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz'];
+var appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz', 'Enlighten'];
 var roomApps = []; //0-9999 corresponding to room id
 
 var hestia;
@@ -46,21 +46,21 @@ function selectApp(roomId, appId, players) {
         ons: [],
 
         on: function(){
-            console.log("APP ON");
-            console.log(arguments);
+            // console.log("APP ON");
+            // console.log(arguments);
             var args = Array.prototype.slice.call(arguments);
-            console.log(args);
+            // console.log(args);
             this.ons[args[0]] = args[1];
         },
 
         emit: function(){
-            console.log("APP EMIT");
-            console.log(arguments);
+            // console.log("APP EMIT");
+            // console.log(arguments);
             var args = Array.prototype.slice.call(arguments);
             var socketId = args[0];
             var eventName = args[1];
             var data = args.slice(2);
-            console.log(args);
+            // console.log(args);
             hestia.emit("apps-emit", socketId, eventName, data);
         },
 
@@ -88,8 +88,12 @@ function selectApp(roomId, appId, players) {
             console.log('onload');
         },
 
-        connect: function() {
+        connect: function(id) {
             return [];
+        },
+
+        quit: function() {
+            console.log('quit');
         }
     };
     app.on("_onload", function(socket) {
@@ -98,7 +102,7 @@ function selectApp(roomId, appId, players) {
             console.log(id);
             names.push(app.players[id].name);
         }
-        var data = app.connect();
+        var data = app.connect(socket.id);
         app.emit(socket, "_connected", names, data);
     });
 
@@ -117,7 +121,9 @@ function joinApp(roomId, socketID, player) {
 function dataRetrieved(roomId, socketId, eventName, data) {
     //console.log("appManager.dataRetrieved: " + eventName + "; " + data + "; " + roomId);
 
-    roomApps[roomId].execute(eventName, socketId, data);
+    if(roomApps[roomId]) {
+        roomApps[roomId].execute(eventName, socketId, data);
+    }
 }
 
 function leaveApp(roomId, socketId) { //player leaves app
@@ -136,7 +142,11 @@ function leaveApp(roomId, socketId) { //player leaves app
 
 function quitApp(roomId) { //host leaves app
     console.log("room " + roomId + " quitting app");
-    delete roomApps[roomId];
+
+    if(roomApps[roomId]) {
+        roomApps[roomId].quit();
+        delete roomApps[roomId];
+    }
 }
 
 app.use(comp());
@@ -144,8 +154,6 @@ app.get('/names', function(req, res, next) {
     res.send(appNames);
 });
 app.use(function(req, res, next) {
-    console.log(req.path);
-    console.log(req.path.split('/')[1]);
     var name = req.path.split('/')[1];
     if(appNames.indexOf(name) === -1 && name !== 'appHeader.js') {
         res.send("No app found");
@@ -158,5 +166,5 @@ app.use(function(req, res, next) {
 app.use(express.static(__dirname + "/apps/client"));
 var port = process.env.PORT || 4000;
 http.listen(port, function(){
-  console.log("listening on:" + port);
+    console.log("listening on:" + port);
 });

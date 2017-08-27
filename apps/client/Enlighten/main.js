@@ -51,18 +51,21 @@ var debug = false;
 var oldtime = new Date().getTime(), time = new Date().getTime(); //for fps
 
 window.onload = function(){
-    document.getElementById("startbtn").onclick = function(){
-        // Start game
-        setupSocket();
-        setupInput();
-        if(!animloopHandle) animloop();
-        app.emit("startClient");
-    };
+    // Start game
+    setupSocket();
+    setupInput();
+    if(!animloopHandle) animloop();
 }
 
 function setupSocket(){
-    app.on("startServer", function(newPlayer, otherPlayers, roomNum, room, newCampfires){
-        Info.setRoom(roomNum);
+    app.onload = function(data) {
+        console.log(data);
+        var newPlayer = data.player;
+        var otherPlayers = data.others;
+        var room = data.room;
+        var newCampfires = data.campfires;
+
+        Info.setRoom(newPlayer.room);
         player = newPlayer;
         others = otherPlayers;
 
@@ -72,11 +75,10 @@ function setupSocket(){
         campfires = newCampfires;
         roomDraw = true;
 
-        document.getElementById("menu").style.display = "none";
         ct.focus();
 
-        app.emit("confirm", window.innerWidth, window.innerHeight);
-    });
+        app.emit("confirm", newPlayer, window.innerWidth, window.innerHeight);
+    };
 
     app.on("newNumPlayers", function (numPlayers) {
         Info.setNumPlayer(numPlayers);
@@ -115,6 +117,18 @@ function setupSocket(){
         setTimeout(function(){
             app.emit("respawn");
         }, 1000);
+    });
+
+    app.on("respawn", function(newPlayer, newOthers, roomNum, room, newCampfires) {
+        Info.setRoom(roomNum);
+        player = newPlayer;
+        others = newOthers;
+
+        calculateOffset();
+        updateRoom(room);
+
+        campfires = newCampfires;
+        roomDraw = true;
     });
 }
 
