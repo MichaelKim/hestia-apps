@@ -1,6 +1,8 @@
 function serverApp(app){
 
-    var player1, player2;
+    var playing = [];
+    var numPlayers = 2;
+
     var boardState = [[], [], [], [], [], [], []]; //7 columns
     var maxHeight = 6;
     var currTurn = 0;
@@ -51,32 +53,39 @@ function serverApp(app){
     }
 
     app.on("start", function(id) {
-        if(player1 === undefined) {
-            app.emit(id, "connected", 1);
-            player1 = id;
-            console.log("Player 1 joined");
-        }
-        else if(player2 === undefined) {
-            app.emit(id, "connected", 2);
-            player2 = id;
-            console.log("Player 2 joined");
+        console.log(playing);
+        var i = 0;
+        while (i < numPlayers && playing[i]) i++;
+
+        if (i < numPlayers) {
+            playing[i] = id;
+            app.emit(id, "connected", i + 1);
+            console.log("Player " + (i + 1) + " joined");
+
+            if (currTurn === 0 && i === numPlayers - 1) { // New game
+                app.emit(playing[0], "turn");
+                currTurn = 1;
+            }
+            else if (currTurn > 0) { // Someone left
+                app.emit(playing[currTurn - 1], "turn");
+            }
         }
         else {
             app.emit(id, "connected", 0);
             console.log("Spectator joined");
         }
         app.emit(id, "newBoard", boardState);
-
-        if(player1 && player2) {
-            app.emit(player1, "turn");
-            currTurn = 1;
-        }
     });
 
     app.on("placePiece", function(id, col) {
         console.log("Placing piece at " + col);
-        var player = (id === player1) ? 1 : (id=== player2) ? 2 : 0;
-        if(player === 1 || player === 2) {
+
+        var i = 0;
+        while (i < numPlayers && playing[i] !== id) i++;
+
+        var player = (i === numPlayers) ? 0 : i + 1;
+
+        if(player >= 1 && player <= numPlayers) {
             console.log("Player " + player);
             if(currTurn !== player) {
                 app.emit(id, "errorMsg", "It is not your turn yet");
@@ -92,6 +101,7 @@ function serverApp(app){
 
                 var win = checkWin();
                 if (win !== 0) {
+                    currTurn = 0;
                     app.emitAll("winner", win);
                     setTimeout(function () {
                         boardState = [[], [], [], [], [], [], []];
@@ -99,17 +109,17 @@ function serverApp(app){
 
                         app.emitAll("reset");
 
-                        app.emit(player1, "turn");
+                        app.emit(playing[0], "turn");
                     }, 5000);
                 }
                 else {
                     if (currTurn === 1) {
                         currTurn = 2;
-                        app.emit(player2, "turn");
+                        app.emit(playing[1], "turn");
                     }
                     else {
                         currTurn = 1;
-                        app.emit(player1, "turn");
+                        app.emit(playing[0], "turn");
                     }
                 }
             }
@@ -120,13 +130,12 @@ function serverApp(app){
     });
 
     app.left = function(id, name, role) {
-        if(player1 === id) {
-            console.log("Player 1 left");
-            player1 = undefined;
-        }
-        else if(player2 === id) {
-            console.log("Player 2 left");
-            player2 = undefined;
+        var i = 0;
+        while (i < numPlayers && playing[i] !== id) i++;
+
+        if (i < numPlayers) {
+            console.log("Player " + (i + 1) + " left");
+            playing[i] = undefined;
         }
     };
 
