@@ -4,7 +4,7 @@ var comp    = require("compression");
 var http    = require("http").createServer(app);
 var io      = require("socket.io").listen(http);
 
-var appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz', 'Enlighten'];
+var appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz', 'Enlighten', 'Controller'];
 var roomApps = []; //0-9999 corresponding to room id
 
 var hestia;
