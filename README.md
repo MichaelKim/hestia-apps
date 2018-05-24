@@ -1,5 +1,5 @@
 # Hestia Apps
 
-A collection of apps available on [Hestia](https://github.com/LenKagamine/Hestia).
+## This repo is deprecated!
 
-Want to create your own app? Read the Hestia app wiki [here](https://github.com/LenKagamine/hestia-apps/wiki)!
+**Apps are moved back into [Hestia](https://github.com/LenKagamine/Hestia) and can be found there.**
