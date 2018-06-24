@@ -1,5 +1,21 @@
-# Hestia Apps
+# hestia-apps
 
-## This repo is deprecated!
+## Features
 
-**Apps are moved back into [Hestia](https://github.com/LenKagamine/Hestia) and can be found there.**
+Hestia Apps
+
+It consists of
+
+- A Node.js server (this repository)
+- A Javascript client library
+
+## Installation
+
+    npm install --save hestia-apps
+
+## How to use
+
+```js
+const http = require('http').createServer();
+const h = require('hestia-apps')(http, __dirname);
+```

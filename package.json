@@ -1,26 +1,28 @@
 {
   "name": "hestia-apps",
-  "version": "1.0.0",
-  "description": "Apps for Hestia",
+  "version": "0.1.0",
+  "description": "Create multi-user apps with rooms",
+  "main": "lib/index.js",
+  "author": "Michael Kim <michaelkim314@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/LenKagamine/hestia-apps.git"
   },
   "bugs": "https://github.com/LenKagamine/hestia-apps/issues",
-  "dependencies": {
-    "compression": "^1.6.0",
-    "express": "^4.13.3",
-    "socket.io": "^2.1.1"
-  },
-  "engines": {
-    "node": "^8.1.4"
-  },
-  "private": true,
-  "main": "./index.js",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "build": "babel src -d lib && flow-copy-source -v src lib"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow-copy-source": "^1.3.0"
+  },
+  "dependencies": {
+    "socket.io": "^2.1.1"
   }
 }
