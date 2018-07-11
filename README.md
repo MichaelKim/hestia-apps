@@ -1,7 +1,21 @@
-# Hestia Apps Demo: Multiple Apps
+# Hestia Demo: Multiple Apps
 
-Check out the demo at https://hestiaroom.herokuapp.com
+Check out the demo at https://hestia-apps.herokuapp.com!
 
-Hestia is a web app where developers can quickly create and host multi-user and real-time web apps. Users can interact with a web app together in groups called "_rooms_". In each room, an instance of a web app is created, which can be anything such as multiplayer games, chat systems, and drawing tools.
+[Hestia](https://github.com/LenKagamine/Hestia) is a Node.js framework for creating multi-user and real-time web applications.
 
-Want to create your own app? Read the Hestia app wiki [here](https://github.com/LenKagamine/hestia-apps/wiki)!
+This demo utilizes Hestia to host several web apps that can be opened by a room's host.
+
+## How to use
+
+```
+$ npm install
+$ npm start
+```
+
+## Features
+
+- Start by creating a room or joining an existing one
+- Rooms have a host: a player with access to change a room's app
+- Player have a role: host or guest
+- Multiple apps to choose from

@@ -1,5 +1,4 @@
 var socket;
-var loaded = false;
 
 window.onload = function() {
   var joinBtn = document.getElementById('join-btn'); //join room button
@@ -44,14 +43,11 @@ function create(name) {
 
 function startGame(option, name) {
   socket = io();
+  hestia(socket, document.getElementById('hestia-box'));
   setupSocket(socket);
-  if (!loaded) {
-    setupAppWindow();
-  }
-  loaded = true;
 
   if (screenfull.enabled) {
-    // screenfull.request();
+    screenfull.request();
   }
 
   if (option === 'create') {

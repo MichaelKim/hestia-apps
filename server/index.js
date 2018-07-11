@@ -4,8 +4,7 @@ const express = require('express');
 const app = express();
 const comp = require('compression');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const h = require('hestia-apps')(io);
+const h = require('hestia.io')(http);
 
 app.use(comp());
 app.use(express.static(__dirname + '/../client'));
@@ -26,16 +25,16 @@ const appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz', 'Enlight
 
 h.on('startCreate', (socket: any, name: string) => {
   console.log('Creating new room');
-  const roomID = h.createRoom({
-    host: socket.id,
-    players: [socket.id]
-  });
-
   h.addPlayer({
     id: socket.id,
     name,
-    room: roomID,
+    room: -1,
     role: 0
+  });
+
+  const roomID = h.createRoom({
+    host: socket.id,
+    players: [socket.id]
   });
 
   socket.emit('room-created', roomID, appNames);
@@ -45,13 +44,12 @@ h.on('startJoin', (socket: any, name: string, roomID: number) => {
   h.addPlayer({
     id: socket.id,
     name,
-    room: roomID,
+    room: -1,
     role: 1
   });
 
   const success = h.joinRoom(roomID, socket.id);
   if (!success) {
-    // TODO: if room doesn't exist, player is added to global players list, but not in room: memory leak
     socket.emit('error-msg', 'Room does not exist');
     return;
   }
