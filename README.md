@@ -1,6 +1,6 @@
 # Hestia Demo: Multiple Apps
 
-Check out the demo at https://hestia-apps.herokuapp.com!
+Check out the demo at https://hestia-apps.michaelkim.me!
 
 [Hestia](https://github.com/LenKagamine/Hestia) is a Node.js framework for creating multi-user and real-time web applications.
 

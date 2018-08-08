@@ -10,16 +10,20 @@
   "engines": {
     "node": ">=0.12.7"
   },
+  "files": [
+    "dist/"
+  ],
   "private": true,
   "scripts": {
-    "start": "nodemon server/index.js --exec babel-node",
+    "dev": "nodemon server/index.js --exec babel-node",
     "build": "babel server -d dist --copy-files",
-    "serve": "node dist/index.js"
+    "start": "node dist/index.js",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "compression": "^1.7.2",
     "express": "^4.16.3",
-    "hestia.io": "^0.1.0"
+    "hestia.io": "^0.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
