@@ -21,7 +21,7 @@ Hestia example: hestia apps website
 - Multiple apps
 */
 
-const appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz', 'Enlighten', 'Controller'];
+const appNames = ['Add1', 'Canvas', 'Chat', 'Connect4', 'Ping', 'Quiz', 'Enlighten', 'Controller', 'Word'];
 
 h.on('startCreate', (socket: any, name: string) => {
   console.log('Creating new room');

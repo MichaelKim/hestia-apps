@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <style>
+      * {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+
+      body {
+        text-align: center;
+      }
+
+      h2, h3, p {
+        margin: 0;
+      }
+
+      header {
+        width: 80%;
+        margin: 10px auto;
+      }
+
+      #inst-box {
+        border: 1px solid black;
+        margin: 10px 0;
+        padding: 10px;
+        display: none;
+      }
+
+      #alphabet {
+        margin: 10px;
+      }
+
+      .alphabet-key {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+      }
+
+      #timer-box {
+        display: flex;
+        flex-direction: row;
+        margin: 10px;
+        justify-content: center;
+      }
+
+      #timer {
+        width: 50%;
+        height: 25px;
+        border: 1px solid black;
+        margin: 0 5px;
+      }
+
+      #status-box {
+        width: 50%;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Word Building</h1>
+      <button id="inst-btn">
+        <h2>Instructions</h2>
+      </button>
+      <div id="inst-box">
+        <p>Each player takes turns adding a letter onto a string of letters.</p>
+        <p>The objective is to add a letter such that the resulting string is <b>not a valid word</b>, but is a <b>prefix of a valid word.</b></p>
+        <p>If you think someone has made a real word, or the string cannot be a real prefix, then you can call them out.</p>
+        <p>If you get called out, you have 10 seconds to enter your target word (if you did have a word). Otherwise, you will lose.</p>
+      </div>
+    </header>
+
+    <h3>Alphabet</h3>
+    <div id="alphabet"></div>
+    <div id="curr-string"></div>
+    <button id="call-out">Call Out</button>
+    <input id="word-box" disabled placeholder="What is your word?" />
+    <button id="enter">Enter Word</button>
+    <button id="bluffed">Bluffed</button>
+    <div id="timer-box">
+      <p>Timer</p>
+      <div id="timer"></div>
+    </div>
+
+    <h3>Status</h3>
+    <textarea id="status-box" readonly></textarea>
+
+    <script type="text/javascript" src="../appHeader.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+  </body>
+</html>
